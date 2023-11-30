@@ -10,6 +10,7 @@ def pascal_triangle(n):
     You can assume n will be always an integer
     """
     lst = []
+
     if n <= 0:
         return lst
     else:
@@ -24,4 +25,3 @@ def pascal_triangle(n):
                 lst.append(new_lst)
 
         return lst
-
