@@ -7,8 +7,6 @@ Write a program that solves the N queens problem.
 import sys
 
 
-
-
 def solve_nqueens(n):
     """solves the first part"""
     if n == 0:
