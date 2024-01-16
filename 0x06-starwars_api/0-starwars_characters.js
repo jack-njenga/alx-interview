@@ -2,37 +2,32 @@
 // requests for all character of Star Wars movie.
 
 const request = require('request');
-const id = process.argv[2];
-if (!id || isNaN(id)) {
-  process.exit(1);
-}
+const filmId = process.argv[2];
 
-const url = `https://swapi-api.alx-tools.com/api/films/${id}`;
-
-request(url, (error, response, body) => {
+request('https://swapi-api.alx-tools.com/api/films/' + filmId, function (error, response, body) {
   if (error) {
-    console.log(error);
-    return;
+    console.error('error', error);
   }
+  const result = JSON.parse(response.body);
+  const characters = result.characters;
+  let url;
+  const names = {};
+  let out = 0;
 
-  const responses = [];
-
-  const json = JSON.parse(body);
-  const characters = json.characters;
-
-  characters.forEach((character) => {
-    const url = character;
-    const promise = new Promise((resolve, reject) => {
-      request(url, (error, response, body) => {
-        if (error) {
-          reject(error);
+  for (let j = 0; j < characters.length; j++) {
+    url = characters[j];
+    request(url, function (error, response, body) {
+      if (error) {
+        console.error('error', error);
+      }
+      const data = JSON.parse(response.body);
+      names[j] = data.name;
+      out += 1;
+      if (out === characters.length) {
+        for (let i = 0; i < characters.length; i++) {
+          console.log(names[i]);
         }
-        resolve(JSON.parse(body).name);
-      });
+      }
     });
-    responses.push(promise);
-  });
-  Promise.all(responses)
-    .then(names => console.log(names.join('\n')))
-    .catch(errors => console.log(errors));
+  }
 });
