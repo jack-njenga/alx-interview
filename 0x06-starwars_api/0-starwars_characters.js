@@ -2,9 +2,9 @@
 // requests for all character of Star Wars movie.
 
 const request = require('request');
-const filmId = process.argv[2];
+const id = process.argv[2];
 
-request('https://swapi-api.alx-tools.com/api/films/' + filmId, function (error, response, body) {
+request('https://swapi-api.alx-tools.com/api/films/' + id, function (error, response, body) {
   if (error) {
     console.error('error', error);
   }
@@ -13,7 +13,6 @@ request('https://swapi-api.alx-tools.com/api/films/' + filmId, function (error, 
   let url;
   const names = {};
   let out = 0;
-
   for (let j = 0; j < characters.length; j++) {
     url = characters[j];
     request(url, function (error, response, body) {
